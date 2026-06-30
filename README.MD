@@ -116,6 +116,24 @@ Cada servicio tiene su propia base de datos MySQL, orquestada con **Docker Compo
   - Usuario: `examen`
   - Password: `examen123`
 
+### 6. reseñas Service ##############################  by me
+- **ArtifactId:** `reseñas`
+- **Puerto:** `9006`
+- **Tecnologías:**
+  - Spring Boot 4.0.7
+  - Spring Data JPA
+  - Flyway
+  - Spring WebFlux
+  - Spring Security
+  - Eureka Client
+  - Swagger (OpenAPI)
+- **Base de datos:** MySQL (`mysql_reseñas`)
+  - Host: `localhost`
+  - Puerto: `3313`
+  - DB: `reseñas`
+  - Usuario: `examen`
+  - Password: `examen123`
+
 ---
 
 ## Bases de Datos (Docker Compose)

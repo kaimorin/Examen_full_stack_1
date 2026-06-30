@@ -34,9 +34,13 @@ public class ReseñaController {
             return ResponseEntity.status(401)
                     .body(new ApiResponse<>(401, "Token inválido", null));
         }
-
-        List<ReseñasDto> reseñas = reseñaService.findAll();
-        return ResponseEntity.ok(new ApiResponse<>(200, "Reseñas obtenidas correctamente", reseñas));
+        try {
+            List<ReseñasDto> reseñas = reseñaService.findAll();
+            return ResponseEntity.ok(new ApiResponse<>(200, "Reseñas obtenidas correctamente", reseñas));
+        } catch (Exception e) {
+            return ResponseEntity.status(500)
+                    .body(new ApiResponse<>(500, "Error al obtener reseñas: " + e.getMessage(), null));
+        }
     }
 
     @GetMapping("/get/{id}")
@@ -49,12 +53,17 @@ public class ReseñaController {
             return ResponseEntity.status(401)
                     .body(new ApiResponse<>(401, "Token inválido", null));
         }
-        Optional<ReseñasDto> rese = reseñaService.findById(id);
-        if (rese.isEmpty()) {
-            return ResponseEntity.status(404)
-                    .body(new ApiResponse<>(404, "Reseña no encontrada", null));
+        try {
+            Optional<ReseñasDto> rese = reseñaService.findById(id);
+            if (rese.isEmpty()) {
+                return ResponseEntity.status(404)
+                        .body(new ApiResponse<>(404, "Reseña no encontrada", null));
+            }
+            return ResponseEntity.ok(new ApiResponse<>(200, "Reseña obtenida correctamente", rese.get()));
+        } catch (Exception e) {
+            return ResponseEntity.status(500)
+                    .body(new ApiResponse<>(500, "Error al obtener reseña: " + e.getMessage(), null));
         }
-        return ResponseEntity.ok(new ApiResponse<>(200, "Reseña obtenida correctamente", rese.get()));
     }
 
     @PostMapping("/create")
@@ -67,21 +76,36 @@ public class ReseñaController {
             return ResponseEntity.status(401)
                     .body(new ApiResponse<>(401, "Token inválido", null));
         }
-        ReseñasDto createdReseña = reseñaService.create(reseñaDto);
-        return ResponseEntity.ok(new ApiResponse<>(201, "Reseña creada correctamente", createdReseña));
+        try {
+            ReseñasDto createdReseña = reseñaService.create(reseñaDto);
+            return ResponseEntity.ok(new ApiResponse<>(201, "Reseña creada correctamente", createdReseña));
+        } catch (Exception e) {
+            return ResponseEntity.status(500)
+                    .body(new ApiResponse<>(500, "Error al crear reseña: " + e.getMessage(), null));
+        }
     }
 
     @PutMapping("/update/{id}")
     @Operation(summary = "Actualizar reseña existente", description = "Actualiza una reseña existente por su ID")
     public ResponseEntity<ApiResponse<Object>> updateReseña(@RequestHeader("Authorization") String authHeader,@PathVariable Long id, @RequestBody ReseñasDto reseñaDto) {
-        ReseñasDto updatedReseña = reseñaService.update(id, reseñaDto);
-        return ResponseEntity.ok(new ApiResponse<>(200, "Reseña actualizada correctamente", updatedReseña));
+        try {
+            ReseñasDto updatedReseña = reseñaService.update(id, reseñaDto);
+            return ResponseEntity.ok(new ApiResponse<>(200, "Reseña actualizada correctamente", updatedReseña));
+        } catch (Exception e) {
+            return ResponseEntity.status(500)
+                    .body(new ApiResponse<>(500, "Error al actualizar reseña: " + e.getMessage(), null));
+        }
     }
 
     @DeleteMapping("/delete/{id}")
     @Operation(summary = "Eliminar reseña", description = "Elimina una reseña específica por su ID")
     public ResponseEntity<ApiResponse<Object>> deleteReseña(@RequestHeader("Authorization") String authHeader,@PathVariable Long id) {
-        reseñaService.delete(id);
-        return ResponseEntity.ok(new ApiResponse<>(200, "Reseña eliminada correctamente", null));
+        try {
+            reseñaService.delete(id);
+            return ResponseEntity.ok(new ApiResponse<>(200, "Reseña eliminada correctamente", null));
+        } catch (Exception e) {
+            return ResponseEntity.status(500)
+                    .body(new ApiResponse<>(500, "Error al eliminar reseña: " + e.getMessage(), null));
+        }
     }
 }
