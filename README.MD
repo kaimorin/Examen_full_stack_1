@@ -141,6 +141,7 @@ Cada servicio tiene su propia base de datos MySQL, orquestada con **Docker Compo
 - **mysql_login** → puerto `3310`, DB `login`
 - **mysql_destination** → puerto `3311`, DB `destination`
 - **mysql_traveler** → puerto `3312`, DB `traveler`
+- **mysql_reseñas** → puerto `3313`, DB `reseñas`
 
 Cada servicio tiene su propia base de datos aislada, con usuario `examen` y contraseña `examen123`.
 
