@@ -30,9 +30,9 @@ eureka:
 logging:
   level:
     root: INFO
-    cl.duoc.traveler: DEBUG
+    cl.duoc.resenas: DEBUG
   file:
-    name: logs/traveler-service.log
+    name: logs/reseñas-service.log
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
     file: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
