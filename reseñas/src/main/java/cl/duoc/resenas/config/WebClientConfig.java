@@ -1,4 +1,4 @@
-package cl.duoc.traveler.config;
+package cl.duoc.resenas.config;
 
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;

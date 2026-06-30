@@ -2,7 +2,7 @@ package cl.duoc.resenas.service;
 
 
 import cl.duoc.resenas.dto.ApiResponse;
-import cl.duoc.resenas.dto.ReseñasDto;
+import cl.duoc.resenas.dto.UserDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ public class AuthService {
     /**
      * Valida el token contra el Login Service y retorna los datos del usuario.
      */
-    public ApiResponse<ReseñasDto> validateToken(String token) {
+    public ApiResponse<UserDTO> validateToken(String token) {
         try {
             return webClientBuilder.build()
                     .get()
@@ -28,7 +28,7 @@ public class AuthService {
                         .queryParam("token", token)
                         .build())
                     .retrieve()
-                    .bodyToMono(new ParameterizedTypeReference<ApiResponse<ReseñasDto>>() {})
+                    .bodyToMono(new ParameterizedTypeReference<ApiResponse<UserDTO>>() {})
                     .block();
         } catch (Exception e) {
             return new ApiResponse<>(500, "Error al validar token: " + e.getMessage(), null);
