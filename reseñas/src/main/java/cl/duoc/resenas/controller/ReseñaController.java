@@ -22,7 +22,9 @@ import java.util.Optional;
 public class ReseñaController {
     private final ReseñaService reseñaService;
     private final AuthService authService;
-    @GetMapping
+
+
+    @GetMapping("/all")
     @Operation(summary = "Listar todas las reseñas", description = "Obtiene todas las reseñas")
     public ResponseEntity<ApiResponse<Object>> getAllReseñas(@RequestHeader("Authorization") String authHeader) {
            String token = authHeader.replace("Bearer ", "");
@@ -37,7 +39,7 @@ public class ReseñaController {
         return ResponseEntity.ok(new ApiResponse<>(200, "Reseñas obtenidas correctamente", reseñas));
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/get/{id}")
     @Operation(summary = "Obtener reseña por ID", description = "Obtiene una reseña específica por su ID")
     public ResponseEntity<ApiResponse<Object>> getReseñaById(@RequestHeader("Authorization") String authHeader,@PathVariable Long id) {
            String token = authHeader.replace("Bearer ", "");
@@ -52,10 +54,10 @@ public class ReseñaController {
             return ResponseEntity.status(404)
                     .body(new ApiResponse<>(404, "Reseña no encontrada", null));
         }
-        return ResponseEntity.ok(new ApiResponse<>(200, "Reseña obtenida correctamente", rese));
+        return ResponseEntity.ok(new ApiResponse<>(200, "Reseña obtenida correctamente", rese.get()));
     }
 
-    @PostMapping
+    @PostMapping("/create")
     @Operation(summary = "Crear nueva reseña", description = "Crea una nueva reseña")
     public ResponseEntity<ApiResponse<Object>> createReseña(@RequestHeader("Authorization") String authHeader,@RequestBody ReseñasDto reseñaDto) {
            String token = authHeader.replace("Bearer ", "");
@@ -69,14 +71,14 @@ public class ReseñaController {
         return ResponseEntity.ok(new ApiResponse<>(201, "Reseña creada correctamente", createdReseña));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     @Operation(summary = "Actualizar reseña existente", description = "Actualiza una reseña existente por su ID")
     public ResponseEntity<ApiResponse<Object>> updateReseña(@RequestHeader("Authorization") String authHeader,@PathVariable Long id, @RequestBody ReseñasDto reseñaDto) {
         ReseñasDto updatedReseña = reseñaService.update(id, reseñaDto);
         return ResponseEntity.ok(new ApiResponse<>(200, "Reseña actualizada correctamente", updatedReseña));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     @Operation(summary = "Eliminar reseña", description = "Elimina una reseña específica por su ID")
     public ResponseEntity<ApiResponse<Object>> deleteReseña(@RequestHeader("Authorization") String authHeader,@PathVariable Long id) {
         reseñaService.delete(id);

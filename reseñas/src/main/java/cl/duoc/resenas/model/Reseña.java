@@ -18,7 +18,7 @@ public class Reseña {
     @GeneratedValue
     private long id;
 
-   @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT")
     private String description;
 
     @Column(nullable = false, unique = true)
