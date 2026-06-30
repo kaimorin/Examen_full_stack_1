@@ -20,13 +20,13 @@ public class ReseñaController {
 
     @GetMapping
     @Operation(summary = "Listar todas las reseñas", description = "Obtiene todas las reseñas")
-    public ResponseEntity<List<ReseñasDto>> getAllReseñas() {
+    public ResponseEntity<List<ReseñasDto>> getAllReseñas(@RequestHeader("Authorization") String authHeader) {
         return ResponseEntity.ok(reseñaService.findAll());
     }
 
     @GetMapping("/{id}")
     @Operation(summary = "Obtener reseña por ID", description = "Obtiene una reseña específica por su ID")
-    public ResponseEntity<ReseñasDto> getReseñaById(@PathVariable Long id) {
+    public ResponseEntity<ReseñasDto> getReseñaById(@RequestHeader("Authorization") String authHeader,@PathVariable Long id) {
         return reseñaService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -34,19 +34,19 @@ public class ReseñaController {
 
     @PostMapping
     @Operation(summary = "Crear nueva reseña", description = "Crea una nueva reseña")
-    public ResponseEntity<ReseñasDto> createReseña(@RequestBody ReseñasDto reseñaDto) {
+    public ResponseEntity<ReseñasDto> createReseña(@RequestHeader("Authorization") String authHeader,@RequestBody ReseñasDto reseñaDto) {
         return ResponseEntity.ok(reseñaService.create(reseñaDto));
     }
 
     @PutMapping("/{id}")
     @Operation(summary = "Actualizar reseña existente", description = "Actualiza una reseña existente por su ID")
-    public ResponseEntity<ReseñasDto> updateReseña(@PathVariable Long id, @RequestBody ReseñasDto reseñaDto) {
+    public ResponseEntity<ReseñasDto> updateReseña(@RequestHeader("Authorization") String authHeader,@PathVariable Long id, @RequestBody ReseñasDto reseñaDto) {
         return ResponseEntity.ok(reseñaService.update(id, reseñaDto));
     }
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Eliminar reseña", description = "Elimina una reseña específica por su ID")
-    public ResponseEntity<Void> deleteReseña(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteReseña(@RequestHeader("Authorization") String authHeader,@PathVariable Long id) {
         reseñaService.delete(id);
         return ResponseEntity.noContent().build();
     }
