@@ -2,7 +2,7 @@ spring:
   application:
     name: reseñas
   datasource:
-    url: jdbc:mysql://localhost:3312/reseñas
+    url: jdbc:mysql://localhost:3313/resenas
     username: examen
     password: examen123
     driver-class-name: com.mysql.cj.jdbc.Driver

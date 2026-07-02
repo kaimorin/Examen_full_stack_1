@@ -17,17 +17,17 @@ class ReseñaControllerStandAloneTest {
 
     @BeforeEach
     void setup() {
-        reseñaService = org.mockito.Mockito.mock(ReseñaService.class); // crea un mock de ReseñaService para simular su comportamiento durante las pruebas sin necesidad de una implementación real
-        authService = org.mockito.Mockito.mock(AuthService.class); // crea un mock de AuthService para simular la validación de tokens durante las pruebas sin necesidad de una implementación real
+        reseñaService = org.mockito.Mockito.mock(ReseñaService.class); 
+        authService = org.mockito.Mockito.mock(AuthService.class); 
 
-        ReseñaController reseñaController = new ReseñaController(reseñaService, authService); // crea una instancia de ReseñaController pasando los mocks de ReseñaService y AuthService como dependencias
-        mockMvc = MockMvcBuilders.standaloneSetup(reseñaController).build(); // configura MockMvc para usar la instancia de ReseñaController creada, lo que permite simular solicitudes HTTP a los endpoints del controlador durante las pruebas
+        ReseñaController reseñaController = new ReseñaController(reseñaService, authService); 
+        mockMvc = MockMvcBuilders.standaloneSetup(reseñaController).build(); 
     }
 
     @Test
     void testGetAllReseñas() throws Exception {
-        mockMvc.perform(get("/api/v1/reseñas/all") // simula una solicitud GET al endpoint "/api/v1/reseñas/all" con un encabezado de autorización que contiene un token inválido
-                .header("Authorization", "Bearer invalid")) // simula una solicitud GET al endpoint "/api/v1/reseñas/all" con un encabezado de autorización que contiene un token inválido
+        mockMvc.perform(get("/api/v1/reseñas/all") 
+                .header("Authorization", "Bearer invalid")) 
                 .andExpect(status().isUnauthorized());
     }
 }
