@@ -77,11 +77,11 @@ public class ReseñaController {
                     .body(new ApiResponse<>(401, "Token inválido", null));
         }
         try {
-            ReseñasDto createdReseña = reseñaService.create(reseñaDto);
+            ReseñasDto createdReseña = reseñaService.create(reseñaDto, token);
             return ResponseEntity.ok(new ApiResponse<>(201, "Reseña creada correctamente", createdReseña));
         } catch (Exception e) {
-            return ResponseEntity.status(500)
-                    .body(new ApiResponse<>(500, "Error al crear reseña: " + e.getMessage(), null));
+            return ResponseEntity.status(400)
+                    .body(new ApiResponse<>(400, e.getMessage(), null));
         }
     }
 

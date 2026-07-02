@@ -20,13 +20,13 @@ public class Reseña {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false )
     private double nota;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String nombreUser;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String nombreLugar;
 
    

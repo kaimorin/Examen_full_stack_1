@@ -1,5 +1,6 @@
 package cl.duoc.resenas.service;
 
+import cl.duoc.resenas.dto.ApiResponse;
 import cl.duoc.resenas.dto.ReseñasDto;
 import cl.duoc.resenas.model.Reseña;
 import cl.duoc.resenas.repository.ReseñaRepository;
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ReseñaService {
     private final ReseñaRepository reseñaRepository;
+    private final DestinationService destinationService;
 
     public List<ReseñasDto> findAll() {
         return reseñaRepository.findAll().stream()
@@ -26,6 +28,12 @@ public class ReseñaService {
     }
 
     public ReseñasDto create(ReseñasDto reseñaDto) {
+        return create(reseñaDto, null);
+    }
+
+    public ReseñasDto create(ReseñasDto reseñaDto, String token) {
+        validateDestination(reseñaDto, token);
+
         Reseña reseña = toEntity(reseñaDto);
         return toDto(reseñaRepository.save(reseña));
     }
@@ -44,6 +52,20 @@ public class ReseñaService {
 
     public void delete(Long id) {
         reseñaRepository.deleteById(id);
+    }
+
+    private void validateDestination(ReseñasDto reseñaDto, String token) {
+        if (reseñaDto == null || reseñaDto.getDestinationId() == null || token == null || token.isBlank()) {
+            return;
+        }
+
+        ApiResponse<Boolean> response = destinationService.validateDestination(reseñaDto.getDestinationId(), token);
+        if (response == null || response.getCode() != 200 || Boolean.TRUE.equals(response.getData()) == false) {
+            String message = response != null && response.getMessage() != null && !response.getMessage().isBlank()
+                    ? response.getMessage()
+                    : "El destino no existe";
+            throw new IllegalArgumentException(message);
+        }
     }
 
     private ReseñasDto toDto(Reseña reseña) {
