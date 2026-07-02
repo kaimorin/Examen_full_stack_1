@@ -14,6 +14,7 @@ import cl.duoc.resenas.service.ReseñaService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 @Tag(name = "Review Controller", description = "Endpoints para gestión de reseñas")
 @RestController
@@ -22,6 +23,7 @@ import java.util.Optional;
 public class ReseñaController {
     private final ReseñaService reseñaService;
     private final AuthService authService;
+    private static final Logger logger = Logger.getLogger(ReseñaController.class.getName());
 
 
     @GetMapping("/all")
@@ -38,8 +40,10 @@ public class ReseñaController {
             List<ReseñasDto> reseñas = reseñaService.findAll();
             return ResponseEntity.ok(new ApiResponse<>(200, "Reseñas obtenidas correctamente", reseñas));
         } catch (Exception e) {
+            logger.severe("Error al obtener reseñas: " + e.getMessage());
             return ResponseEntity.status(500)
                     .body(new ApiResponse<>(500, "Error al obtener reseñas: " + e.getMessage(), null));
+           
         }
     }
 
